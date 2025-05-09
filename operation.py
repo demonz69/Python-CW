@@ -110,7 +110,7 @@ def item_sell(filepath):
     inv = inventory_read(filepath)
     item_cart = []
     inventory_display(filepath)
-    customer_name = input("Enter the Customer name for billing : ")
+    customer_name = input("Enter the Customer name for billing : ").replace(" ", "").isalpha()
     if not customer_name:
         print("Customer name is required for the bill.")
         return
