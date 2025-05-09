@@ -6,13 +6,13 @@ import datetime
 def get_from_user():
     try:
         while True:
-            name = input("Enter product name: ").strip()
+            name = input("Enter product name: ").replace(" ", "").strip()
             if name:
                 break
             print("Product name cannot be empty.")
 
         while True:
-            company = input("Enter company: ").strip()
+            company = input("Enter company: ").replace(" ", "").strip()
             if company:
                 break
             print("Company name cannot be empty.")
@@ -21,7 +21,7 @@ def get_from_user():
             quantity = int(input("Enter quantity: ").strip())
             if quantity.isdigit() and quantity >= 0:
                 break
-            print("Quantity must be a non-negative integer.")
+            print("Quantity cannot be negative.")
 
         while True:
             price = float(input("Enter price of product(RS): ").strip())
@@ -57,10 +57,14 @@ def restock_inventory(filepath):
         inv = inventory_read(filepath)
         restock_cart = []
         while True:
-            product_name = input("Enter product name to restock or add into inventory: ").strip()
+            product_name = input("Enter product name to restock or add into inventory: ").replace(" ", "").strip()
             existing_product = check_product(inv, product_name)
             if existing_product:
+              while True:  
                 quantity = int(input("How much quantaty you want to restock: "))
+                if quantity.isdigit() and quantity >= 0:
+                    break
+                print("Quantity must be negative.")
                 existing_product['quantity'] += quantity
                 restock_cart.append({
                     'name': existing_product['name'],
@@ -71,7 +75,7 @@ def restock_inventory(filepath):
                     'Country of origin': existing_product['Country of origin']
                 })
             else:
-                new_product_add = input(f"{product_name} not found in inventory.Do you want to add it?").strip()
+                new_product_add = input(f"{product_name} not found in inventory.Do you want to add it?(yes/no)").strip()
                 if new_product_add.lower() == 'yes':
                     new_product = get_from_user()
                     inventory_add(filepath, new_product)
