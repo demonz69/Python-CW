@@ -1,5 +1,5 @@
 from read import inventory_read, inventory_display, check_product
-from write import inventory_add, write_inventory, write_invoice
+from write import inventory_add, write_inventory, write_invoice,display_invoice
 import datetime
 
 
@@ -110,57 +110,58 @@ def item_sell(filepath):
     inv = inventory_read(filepath)
     item_cart = []
     inventory_display(filepath)
-    customer_name = input("Enter the Customer name for billing : ").replace(" ", "").isalpha()
-    if not customer_name:
-        print("Customer name is required for the bill.")
-        return
     while True:
-        product_name = input("Enter the name of product customer want to buy: ")
-        if not product_name:
-            print("Please enter Product name to continue.")
-            continue
-        product = check_product(inv, product_name)
-        if not product:
-            print(f"{product_name} not found.")
-            choice = input("Do you want to try buying another product? (yes/no): ").strip().lower()
-            if choice != 'yes':
-                break
+        customer_name = input("Enter the Customer name for billing : ").replace(" ", "").isalpha()
+        if not customer_name:
+            print("Valid Customer name is required for the bill.")
+
+        while True:
+            product_name = input("Enter the name of product customer want to buy: ")
+            if not product_name:
+                print("Please enter Product name to continue.")
+                continue
+            product = check_product(inv, product_name)
+            if not product:
+                print(f"{product_name} not found.")
+                choice = input("Do you want to try buying another product? (yes/no): ").strip().lower()
+                if choice != 'yes':
+                    break
+                else:
+                    continue
+            try:
+                quantity = int(input("Enter the quantity you want to buy: "))
+                if quantity <= 0:
+                    print("Quantity must be greater than zero.")
+                    continue
+            except ValueError:
+                print("Invalid quantity. Please enter a number.")
+                continue
+            free_item = quantity // 3
+            total_quantity = quantity + free_item
+            if product['quantity'] >= total_quantity:
+                product['quantity'] -= total_quantity
+                sell_price = product['price'] * 2
+                item_cart.append({
+                    'name': product['name'],
+                    'company': product['company'],
+                    'quantity': quantity,
+                    'free_items': free_item,
+                    'price per piece': sell_price,
+                    'subtotal': quantity * sell_price,
+                    'Country of origin': product['Country of origin']
+                })
             else:
-                continue
-        try:
-            quantity = int(input("Enter the quantity you want to buy: "))
-            if quantity <= 0:
-                print("Quantity must be greater than zero.")
-                continue
-        except ValueError:
-            print("Invalid quantity. Please enter a number.")
-            continue
-        free_item = quantity // 3
-        total_quantity = quantity + free_item
-        if product['quantity'] >= total_quantity:
-            product['quantity'] -= total_quantity
-            sell_price = product['price'] * 2
-            item_cart.append({
-                'name': product['name'],
-                'company': product['company'],
-                'quantity': quantity,
-                'free_items': free_item,
-                'price per piece': sell_price,
-                'subtotal': quantity * sell_price,
-                'Country of origin': product['Country of origin']
-            })
-        else:
-            print(f"Not enough {product_name} in stock.")
-        buy_again = input("Do you want to buy more products? ").strip().lower()
-        if buy_again != 'yes':
-            break
-    if item_cart:
-        invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        invoice_file = f"sell-invoice{invoice_number}.txt"
-        total_amount = sum(item['subtotal'] for item in item_cart)
-        header = f"Date: {datetime.datetime.now().strftime('%Y-%m-%d')}\n"
-        items = [f"{item['name']:15}{item['quantity']:>12}{item['free_items']:>12}{item['price per piece']:>12.2f}{item['subtotal']:>14.2f}\n" for item in item_cart]
-        footer = f"Total Amount Payed:\nAll items are billed to: {customer_name}"
-        write_invoice(invoice_file, header, items, total_amount, footer)
-        write_inventory(filepath, inv)
-        print("Invoice has been generated successfully! Check the file for more info", invoice_file)
+                print(f"Not enough {product_name} in stock.")
+            buy_again = input("Do you want to buy more products?(yes/no) ").strip().lower()
+            if buy_again != 'yes':
+                break
+        if item_cart:
+            invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            invoice_file = f"sell-invoice{invoice_number}.txt"
+            total_amount = sum(item['subtotal'] for item in item_cart)
+            items = [f"{item['name']:15}{item['quantity']:>12}{item['free_items']:>12}{item['price per piece']:>12.2f}{item['subtotal']:>14.2f}\n" for item in item_cart]
+            footer = f"Total Amount Payed: Rs {total_amount:.2f}\nAll items are billed to: {customer_name}"
+            write_invoice(invoice_file, invoice_number,items, footer)
+            write_inventory(filepath, inv)
+            display_invoice(invoice_file)
+            print("Invoice has been generated successfully! Check the file for more info", invoice_file)

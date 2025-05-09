@@ -1,0 +1,7 @@
+Date: {datetime.datetime.now().strftime('%Y-%m-%d')}
+Name                 Company              Quantity   Price (Rs)   Country of Origin    
+-------------------------------------------------------------------------------------
+Hair oil                  3           1      460.00       1380.00
+-------------------------------------------------------------------------------------
+Total Amount Payed: Rs 1380.00
+All items are billed to: True
