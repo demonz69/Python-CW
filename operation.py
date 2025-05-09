@@ -5,11 +5,40 @@ import datetime
 
 def get_from_user():
     try:
-        name = input("Enter product name: ").strip()
-        company = input("Enter company: ").strip()
-        quantity = int(input("Enter quantity: "))
-        price = float(input("Enter price: "))
-        origin = input("Enter country of origin: ").strip()
+        while True:
+            name = input("Enter product name: ").strip()
+            if name:
+                break
+            print("Product name cannot be empty.")
+
+        while True:
+            company = input("Enter company: ").strip()
+            if company:
+                break
+            print("Company name cannot be empty.")
+
+        while True:
+            quantity = int(input("Enter quantity: ").strip())
+            if quantity.isdigit() and quantity >= 0:
+                break
+            print("Quantity must be a non-negative integer.")
+
+        while True:
+            price = float(input("Enter price of product(RS): ").strip())
+            try:
+                if price >= 0:
+                    break
+                else:
+                    print("Price must be non-negative.")
+            except ValueError:
+                print("Price must be a number.")
+
+        while True:
+            origin = input("Enter country of origin: ").strip()
+            if origin.replace(" ", "").isalpha():
+                break
+            print("Country of origin must contain only letters.")
+
         return {
             'name': name,
             'company': company,
@@ -17,8 +46,9 @@ def get_from_user():
             'price': price,
             'Country of origin': origin
         }
-    except ValueError:
-        print("Invalid input. Please enter correct values.")
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
         return None
 
 def restock_inventory(filepath):
@@ -26,10 +56,6 @@ def restock_inventory(filepath):
         inventory_display(filepath)
         inv = inventory_read(filepath)
         restock_cart = []
-        company = input("Enter the name supplier/company: ")
-        if not company:
-            print("Company/supplier name is required for invoice.")
-            return
         while True:
             product_name = input("Enter product name to restock or add into inventory: ").strip()
             existing_product = check_product(inv, product_name)
@@ -58,14 +84,14 @@ def restock_inventory(filepath):
                         'subtotal': new_product['quantity'] * new_product['price'],
                         'Country of origin': new_product['Country of origin']
                     })
-            restock_more_products = input("Do you want to restock more products?").strip().lower()
+            restock_more_products = input("Do you want to restock more products?(Yes/no)").strip().lower()
             if restock_more_products != 'yes':
                 break
         if restock_cart:
             invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             invoice_file = f"restock-invoice{invoice_number}.txt"
             total_amount = sum(item['subtotal'] for item in restock_cart)
-            header = f"Restock Invoice from {company}\nDate: {datetime.datetime.now().strftime('%Y-%m-%d')}\n"
+            header = f"Restock Invoice Date: {datetime.datetime.now().strftime('%Y-%m-%d')}\n"
             items = [f"{item['name']:20}{item['quantity']:>6}{item['price']:>10.2f}{item['subtotal']:>12.2f}\n" for item in restock_cart]
             footer = "Total Restock Amount:"
             write_invoice(invoice_file, header, items, total_amount, footer)
