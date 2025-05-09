@@ -1,0 +1,5 @@
+Vitamin C Serum,Garnier,200,1000.0,France
+Skin Cleanser,Cetaphil,100,280.0,Switzerland
+Sunscreen,Aqualogica,122,700.0,India
+Softskin Lotion,Nivea,50,150.0,Germany
+Hair oil,Dabar,193,230.0,India
