@@ -11,10 +11,10 @@ def write_inventory(filepath, inv):
             file.write(f"{product['name']},{product['company']},{product['quantity']},{product['price']},{product['Country of origin']}\n")
 
 
-def write_invoice(file_name,invoice_number, items,footer):
+def write_invoice(file_name, date_sell, header, items,footer):
     with open(file_name, 'w') as file:
-        file.write(invoice_number)
-        file.write(f"{'Name':15} {'Company':15} {'Quantity purched':10} {'Free items':10}{'Price (Rs)':12} {'Country of Origin':15} \n")
+        file.write(date_sell)
+        file.write(header)
         file.write("-" * 85 + "\n")
         for line in items:
             file.write(line)

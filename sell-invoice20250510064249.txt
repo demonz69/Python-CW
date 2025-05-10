@@ -1,0 +1,8 @@
+
+Restock Date: 2025-05-10
+Product         supplyer     Quantity     Free itemsPrice (Rs)   Sub-Total       
+-------------------------------------------------------------------------------------
+Sunscreen       Aqualogica   1            0        1400.00      1400.00       
+-------------------------------------------------------------------------------------
+Total Amount Payed: Rs 1400.00
+All items are billed to: True

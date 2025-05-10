@@ -114,6 +114,7 @@ def item_sell(filepath):
         customer_name = input("Enter the Customer name for billing : ").replace(" ", "").isalpha()
         if not customer_name:
             print("Valid Customer name is required for the bill.")
+            continue
 
         while True:
             product_name = input("Enter the name of product customer want to buy: ")
@@ -159,9 +160,11 @@ def item_sell(filepath):
             invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             invoice_file = f"sell-invoice{invoice_number}.txt"
             total_amount = sum(item['subtotal'] for item in item_cart)
-            items = [f"{item['name']:15}{item['quantity']:>12}{item['free_items']:>12}{item['price per piece']:>12.2f}{item['subtotal']:>14.2f}\n" for item in item_cart]
+            date_sell = (f"\nRestock Date: {datetime.datetime.now().strftime('%Y-%m-%d')}"+"\n")
+            header = (f"{'Product':15} {'supplyer':15} {'Quantity':12} {'Free items':12}{'Price (Rs)':12} {'Sub-Total':15} \n")
+            items = [f"{item['name']:15} {item['company']:15} {item['quantity']:<12} {item['free_items']:<12} {item['price per piece']:<12.2f} {item['subtotal']:<14.2f}\n" for item in item_cart]
             footer = f"Total Amount Payed: Rs {total_amount:.2f}\nAll items are billed to: {customer_name}"
-            write_invoice(invoice_file, invoice_number,items, footer)
+            write_invoice(invoice_file, date_sell ,header,items, footer)
             write_inventory(filepath, inv)
             display_invoice(invoice_file)
             print("Invoice has been generated successfully! Check the file for more info", invoice_file)

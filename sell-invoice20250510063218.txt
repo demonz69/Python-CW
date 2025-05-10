@@ -1,0 +1,8 @@
+
+ Restock Invoice Date: 2025-05-10
+Product         supplyer        Quantity purched Free itemsPrice (Rs)   Sub-Total       
+-------------------------------------------------------------------------------------
+Hair oil       Dabar          1           0       460.00      460.00        
+-------------------------------------------------------------------------------------
+Total Amount Payed: Rs 460.00
+All items are billed to: True

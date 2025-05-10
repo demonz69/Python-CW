@@ -1,7 +1,7 @@
-Date: {datetime.datetime.now().strftime('%Y-%m-%d')}
-Name                 Company              Quantity   Price (Rs)   Country of Origin    
+Product         Company         Quantity purched Free itemsPrice (Rs)   Sub-Total       
+Restock Invoice Date: 2025-05-10
 -------------------------------------------------------------------------------------
-Hair oil                  3           1      460.00       1380.00
+Hair oil              Dabar           3           1      460.00       1380.00
 -------------------------------------------------------------------------------------
 Total Amount Payed: Rs 1380.00
 All items are billed to: True

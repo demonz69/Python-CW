@@ -31,7 +31,7 @@ def inventory_display(filepath):
     if not inv:
         print("No products in inventory.")
         return
-
+    
     print("\n"+"-" * 34 + "Current Inventory" + "-" * 34 +"\n")
     print(f"{'Name':20} {'Company':20} {'Quantity':10} {'Price (Rs)':12} {'Country of Origin':20}")
     print("-" * 85)
