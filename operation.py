@@ -111,60 +111,67 @@ def item_sell(filepath):
     item_cart = []
     inventory_display(filepath)
     while True:
-        customer_name = input("Enter the Customer name for billing : ").replace(" ", "").isalpha()
+        customer_name = input("Enter the Customer name for billing (or type 'cancel' to exit): ").strip()
+        if customer_name.lower() == 'cancel':
+            print("Billing process cancelled.")
+            return 
         if not customer_name:
-            print("Valid Customer name is required for the bill.")
+            print("Customer name cannot be empty.")
             continue
+        if not customer_name.replace(" ", "").isalpha():
+            print("Please enter a valid name.")
+            continue
+        break
 
-        while True:
-            product_name = input("Enter the name of product customer want to buy: ")
-            if not product_name:
-                print("Please enter Product name to continue.")
-                continue
-            product = check_product(inv, product_name)
-            if not product:
-                print(f"{product_name} not found.")
-                choice = input("Do you want to try buying another product? (yes/no): ").strip().lower()
-                if choice != 'yes':
-                    break
-                else:
-                    continue
-            try:
-                quantity = int(input("Enter the quantity you want to buy: "))
-                if quantity <= 0:
-                    print("Quantity must be greater than zero.")
-                    continue
-            except ValueError:
-                print("Invalid quantity. Please enter a number.")
-                continue
-            free_item = quantity // 3
-            total_quantity = quantity + free_item
-            if product['quantity'] >= total_quantity:
-                product['quantity'] -= total_quantity
-                sell_price = product['price'] * 2
-                item_cart.append({
-                    'name': product['name'],
-                    'company': product['company'],
-                    'quantity': quantity,
-                    'free_items': free_item,
-                    'price per piece': sell_price,
-                    'subtotal': quantity * sell_price,
-                    'Country of origin': product['Country of origin']
-                })
-            else:
-                print(f"Not enough {product_name} in stock.")
-            buy_again = input("Do you want to buy more products?(yes/no) ").strip().lower()
-            if buy_again != 'yes':
+    while True:
+        product_name = input("Enter the name of product customer want to buy: ")
+        if not product_name:
+            print("Please enter Product name to continue.")
+            continue
+        product = check_product(inv, product_name)
+        if not product:
+            print(f"{product_name} not found.")
+            choice = input("Do you want to try buying another product? (yes/no): ").strip().lower()
+            if choice != 'yes':
                 break
-        if item_cart:
-            invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-            invoice_file = f"sell-invoice{invoice_number}.txt"
-            total_amount = sum(item['subtotal'] for item in item_cart)
-            date_sell = (f"\nRestock Date: {datetime.datetime.now().strftime('%Y-%m-%d')}"+"\n")
-            header = (f"{'Product':15} {'supplyer':15} {'Quantity':12} {'Free items':12}{'Price (Rs)':12} {'Sub-Total':15} \n")
-            items = [f"{item['name']:15} {item['company']:15} {item['quantity']:<12} {item['free_items']:<12} {item['price per piece']:<12.2f} {item['subtotal']:<14.2f}\n" for item in item_cart]
-            footer = f"Total Amount Payed: Rs {total_amount:.2f}\nAll items are billed to: {customer_name}"
-            write_invoice(invoice_file, date_sell ,header,items, footer)
-            write_inventory(filepath, inv)
-            display_invoice(invoice_file)
-            print("Invoice has been generated successfully! Check the file for more info", invoice_file)
+            else:
+                continue
+        try:
+            quantity = int(input("Enter the quantity you want to buy: "))
+            if quantity <= 0:
+                print("Quantity must be greater than zero.")
+                continue
+        except ValueError:
+            print("Invalid quantity. Please enter a number.")
+            continue
+        free_item = quantity // 3
+        total_quantity = quantity + free_item
+        if product['quantity'] >= total_quantity:
+            product['quantity'] -= total_quantity
+            sell_price = product['price'] * 2
+            item_cart.append({
+                'name': product['name'],
+                'company': product['company'],
+                'quantity': quantity,
+                'free_items': free_item,
+                'price per piece': sell_price,
+                'subtotal': quantity * sell_price,
+                'Country of origin': product['Country of origin']
+            })
+        else:
+            print(f"Not enough {product_name} in stock.")
+        buy_again = input("Do you want to buy more products?(yes/no) ").strip().lower()
+        if buy_again != 'yes':
+            break
+    if item_cart:
+        invoice_number = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        invoice_file = f"sell-invoice{invoice_number}.txt"
+        total_amount = sum(item['subtotal'] for item in item_cart)
+        date_sell = (f"\nRestock Date: {datetime.datetime.now().strftime('%Y-%m-%d')}"+"\n")
+        header = (f"{'Product':15} {'supplyer':15} {'Quantity':12} {'Free items':12}{'Price (Rs)':12} {'Sub-Total':15} \n")
+        items = [f"{item['name']:15} {item['company']:15} {item['quantity']:<12} {item['free_items']:<12} {item['price per piece']:<12.2f} {item['subtotal']:<14.2f}\n" for item in item_cart]
+        footer = f"Total Amount Payed: Rs {total_amount:.2f}\nAll items are billed to: {customer_name}"
+        write_invoice(invoice_file, date_sell ,header,items, footer)
+        write_inventory(filepath, inv)
+        display_invoice(invoice_file)
+        print("Invoice has been generated successfully! Check the file for more info", invoice_file)

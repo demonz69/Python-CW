@@ -1,8 +1,0 @@
-
-Restock Date: 2025-05-10
-Product         supplyer        Quantity     Free items  Price (Rs)   Sub-Total       
--------------------------------------------------------------------------------------
-Sunscreen       Aqualogica      3            1            1400.00      4200.00       
--------------------------------------------------------------------------------------
-Total Amount Payed: Rs 4200.00
-All items are billed to: True

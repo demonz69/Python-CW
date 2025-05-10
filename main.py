@@ -10,7 +10,7 @@ def main_function():
         print("2. sell Products")
         print("3. Restock Inventory or Add New Products")
         print("4. close program")
-        code = input("Enter your code of operation: ").strip()
+        code = input("\n"+"Enter your code of operation: ").strip()
         if code == '1':
             inventory_display(filepath)
         elif code == '2':

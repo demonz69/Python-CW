@@ -1,7 +1,0 @@
-
-Restock Invoice Date: {datetime.datetime.now().strftime('%Y-%m-%d')}
--------------------------------------------------------------------------------------
-Hair oil       Dabar          2           0       460.00      920.00        
--------------------------------------------------------------------------------------
-Total Amount Payed: Rs 920.00
-All items are billed to: True

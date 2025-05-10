@@ -1,8 +1,0 @@
-Product         supplyer        Quantity purched Free itemsPrice (Rs)   Sub-Total       
-Restock Invoice Date: 2025-05-10
--------------------------------------------------------------------------------------
-Sunscreen           Aqualogica           3       1     1400.00       4200.00
-Skin Cleanser         Cetaphil          10       3      560.00       5600.00
--------------------------------------------------------------------------------------
-Total Amount Payed: Rs 9800.00
-All items are billed to: True

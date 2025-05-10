@@ -1,6 +1,0 @@
-20250510061731Product         Company         Quantity purched Free itemsPrice (Rs)   Sub-Total       
--------------------------------------------------------------------------------------
-Sunscreen        Aqualogica          22           7     1400.00      30800.00
--------------------------------------------------------------------------------------
-Total Amount Payed: Rs 30800.00
-All items are billed to: True
