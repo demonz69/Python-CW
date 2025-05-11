@@ -2,6 +2,15 @@
 import datetime
 
 def inventory_read(filepath):
+    """
+    Reads inventory from a file and returns a list of products.
+    
+    Args:
+    - filepath (str): Path to the inventory file.
+    
+    Returns:
+    - list: A list of product dictionaries.
+    """
     inv = []
     try:
         with open(filepath, 'r') as file:
@@ -27,6 +36,15 @@ def inventory_read(filepath):
     return inv
 
 def inventory_display(filepath):
+    """
+    Displays the inventory from the given file.
+    
+    Args:
+    - filepath (str): Path to the inventory file.
+    
+    Returns:
+    - None: Displays inventory to the console.
+    """
     inv = inventory_read(filepath)
     if not inv:
         print("No products in inventory.")
@@ -42,8 +60,18 @@ def inventory_display(filepath):
 
 
 def check_product(inv, product_name):
-    product_check = product_name.strip().lower()
+    """
+    Checks if a product exists in the inventory by name.
+    
+    Args:
+    - inv (list): The inventory list.
+    - product_name (str): The product name to search for.
+    
+    Returns:
+    - dict or None: The product if found, else None.
+    """
+    product_check = product_name.replace(" ","").lower()
     for product in inv:
-        if product['name'].strip().lower() == product_check:
+        if product['name'].replace(" ","").lower() == product_check:
             return product
     return None

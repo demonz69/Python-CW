@@ -1,0 +1,10 @@
+
+Restock Date: 2025-05-10
+Product         supplyer        Quantity     Price (Rs)   Sub-Total       Country of origin  
+-------------------------------------------------------------------------------------
+oil             Dabar           12           230.00       2760.00        India             
+yes             Hymilayan       300          225.00       67500.00       Nepal             
+-------------------------------------------------------------------------------------
+Subtotal: Rs 70260.00
+Total Amount Payed with 13% VAT: Rs 79393.80
+
